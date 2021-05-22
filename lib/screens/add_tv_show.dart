@@ -1,17 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_picker/file_picker.dart';
 
-class TvShows extends StatefulWidget {
+class AddTvShows extends StatefulWidget {
   @override
-  _TvShowsState createState() => _TvShowsState();
+  _AddTvShowsState createState() => _AddTvShowsState();
 }
 
-class _TvShowsState extends State<TvShows> {
+class _AddTvShowsState extends State<AddTvShows> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final format = DateFormat("HH:mm");
   String fileName;
@@ -22,11 +22,12 @@ class _TvShowsState extends State<TvShows> {
   bool isMultiPick = false;
   FileType fileType = FileType.image;
   String _chosenValue;
-  String id;
-  String name;
+  String id = 'adad';
+  String name = 'dada';
   String showTime;
   String day;
   String channel;
+  Map data;
 
   void _openFileExplorer() async {
     setState(() => isLoadingPath = true);
@@ -57,9 +58,19 @@ class _TvShowsState extends State<TvShows> {
   }
 
   addToDB(String id, String name, String channel, String day, String time) {
-    print(showTime);
-    print(day);
-    print(name);
+    Map<String, dynamic> demo = {
+      "id": id,
+      "name": name,
+      "channel": channel,
+      "day": day,
+      "time": time,
+      "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB'
+    };
+
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection('tvshows');
+    collectionReference.add(demo);
+
     Fluttertoast.showToast(
         msg: "Successfully Added",
         toastLength: Toast.LENGTH_SHORT,
@@ -347,3 +358,5 @@ class _TvShowsState extends State<TvShows> {
     );
   }
 }
+
+class FirebaseApp {}
