@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_picker/file_picker.dart';
@@ -86,6 +87,17 @@ class _AddTvShowsState extends State<AddTvShows> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey[400],
+        title: Text(
+          "New Tv-Show",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.roboto(
+            textStyle: TextStyle(
+                color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
+          ),
+        ),
+      ),
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -95,18 +107,11 @@ class _AddTvShowsState extends State<AddTvShows> {
           child: Form(
             key: _formKey,
             child: Container(
-              margin: const EdgeInsets.all(24.0),
+              margin: const EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-                    child: Text(
-                      'New TV-Show',
-                      style: TextStyle(
-                          color: Colors.indigo[500],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),
-                    ),
+                    padding: const EdgeInsets.only(top: 0.0, bottom: 10.0),
                   ),
                   //show id
                   TextFormField(

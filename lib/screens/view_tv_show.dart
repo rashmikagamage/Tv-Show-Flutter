@@ -16,7 +16,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[350],
+          backgroundColor: Colors.grey[400],
           title: Text(
             "Don't Miss Your Favourite Show",
             textAlign: TextAlign.center,
