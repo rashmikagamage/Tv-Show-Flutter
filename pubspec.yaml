@@ -68,6 +68,7 @@ flutter:
     - assets/img4.jpg
     - assets/img5.jpg
     - assets/grd.jpg
+    - assets/blur.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

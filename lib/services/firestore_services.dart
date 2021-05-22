@@ -17,7 +17,9 @@ class FirestoreService {
   }
 
   //Delete
-  Future<void> removeEntry(String id) {
-    return _db.collection('tvshows').doc(id).delete();
+  Future<void> removeEntry(String id) async {
+    _db.collection('tvshows').where("id", isEqualTo: id).get().then((snapshot) {
+      snapshot.docs.first.reference.delete();
+    });
   }
 }

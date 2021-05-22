@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:tvshowsapp/screens/update_tv_show.dart';
+import 'package:tvshowsapp/screens/view_admin.dart';
 import 'package:tvshowsapp/screens/view_tv_show.dart';
+import 'package:tvshowsapp/screens/delete_tv_show.dart';
 
 import 'add_tv_show.dart';
+import 'delete_tv_show.dart';
 
 class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue[400],
+        backgroundColor: Colors.lightBlue[200],
         title: Text(
           "Admin Panel",
           textAlign: TextAlign.center,
@@ -26,17 +29,11 @@ class AdminHome extends StatelessWidget {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/grd.jpg"), fit: BoxFit.cover)),
+                  image: AssetImage("assets/blur.png"), fit: BoxFit.cover)),
           child: Padding(
             padding: const EdgeInsets.only(left: 15, top: 80),
             child: Column(
               children: <Widget>[
-                Icon(
-                  Icons.settings,
-                  color: Colors.lightBlue[900],
-                  size: 44.0,
-                  semanticLabel: 'Text to announce in accessibility modes',
-                ),
                 //Addd button
                 Container(
                   height: 50.0,
@@ -77,7 +74,12 @@ class AdminHome extends StatelessWidget {
                   height: 50.0,
                   margin: EdgeInsets.all(10),
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return UpdateShow();
+                      }));
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(80.0)),
                     padding: EdgeInsets.all(0.0),
@@ -107,7 +109,12 @@ class AdminHome extends StatelessWidget {
                   height: 50.0,
                   margin: EdgeInsets.all(10),
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return DeleteShow();
+                      }));
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(80.0)),
                     padding: EdgeInsets.all(0.0),

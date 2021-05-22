@@ -5,12 +5,12 @@ import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_bar/rating_bar.dart';
 
-class ViewTvShow extends StatefulWidget {
+class ViewAdmin extends StatefulWidget {
   @override
-  _ViewTvShowState createState() => _ViewTvShowState();
+  _ViewAdminState createState() => _ViewAdminState();
 }
 
-class _ViewTvShowState extends State<ViewTvShow> {
+class _ViewAdminState extends State<ViewAdmin> {
   @override
   Widget build(BuildContext context) {
     final entryProvider = Provider.of<EntryProvider>(context);
@@ -33,7 +33,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
         body: StreamBuilder<List<Entry>>(
             stream: entryProvider.entries,
             builder: (context, snapshot) {
-              if (snapshot.data != null) {
+              if (snapshot.data.length != 0) {
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     scrollDirection: Axis.vertical,
@@ -41,7 +41,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          _showMyDialog(snapshot.data[index].name);
+                          print(snapshot.data[index].name);
                         },
                         child: Container(
                           child: Card(
@@ -152,42 +152,5 @@ class _ViewTvShowState extends State<ViewTvShow> {
                 return new Container(child: Text('Loading'));
               }
             }));
-  }
-
-  Future<void> _showMyDialog(String name) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Get Notification',
-            style: TextStyle(fontSize: 18, color: Colors.grey[700]),
-          ),
-          content: SingleChildScrollView(
-            child: Container(
-                child: Text(
-              'Confirm to get notification for $name ',
-              style: TextStyle(
-                  fontSize: 16, color: Colors.indigo[900], height: 1.75),
-            )),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Confirm'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

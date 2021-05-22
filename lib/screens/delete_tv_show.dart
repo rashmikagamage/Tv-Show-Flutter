@@ -5,12 +5,12 @@ import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_bar/rating_bar.dart';
 
-class ViewTvShow extends StatefulWidget {
+class DeleteShow extends StatefulWidget {
   @override
-  _ViewTvShowState createState() => _ViewTvShowState();
+  _DeleteShowState createState() => _DeleteShowState();
 }
 
-class _ViewTvShowState extends State<ViewTvShow> {
+class _DeleteShowState extends State<DeleteShow> {
   @override
   Widget build(BuildContext context) {
     final entryProvider = Provider.of<EntryProvider>(context);
@@ -18,7 +18,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
         appBar: AppBar(
           backgroundColor: Colors.blue[100],
           title: Text(
-            "           My Tv-Shows",
+            "       Delete Tv-Shows",
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
@@ -41,7 +41,8 @@ class _ViewTvShowState extends State<ViewTvShow> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          _showMyDialog(snapshot.data[index].name);
+                          _showMyDialog(snapshot.data[index].id, entryProvider,
+                              snapshot.data[index].name);
                         },
                         child: Container(
                           child: Card(
@@ -133,8 +134,8 @@ class _ViewTvShowState extends State<ViewTvShow> {
                                               padding: const EdgeInsets.only(
                                                   left: 120),
                                               child: Icon(
-                                                Icons.notifications_none,
-                                                color: Colors.pink[800],
+                                                Icons.delete_outline,
+                                                color: Colors.red[800],
                                                 size: 24.0,
                                               ),
                                             ),
@@ -154,28 +155,24 @@ class _ViewTvShowState extends State<ViewTvShow> {
             }));
   }
 
-  Future<void> _showMyDialog(String name) async {
+  Future<void> _showMyDialog(String id, final entry, String name) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Get Notification',
-            style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+            'Delete',
+            style: TextStyle(fontSize: 20, color: Colors.grey[900]),
           ),
           content: SingleChildScrollView(
-            child: Container(
-                child: Text(
-              'Confirm to get notification for $name ',
-              style: TextStyle(
-                  fontSize: 16, color: Colors.indigo[900], height: 1.75),
-            )),
+            child: Container(child: Text('Confirm to delete $name')),
           ),
           actions: <Widget>[
             TextButton(
               child: Text('Confirm'),
               onPressed: () {
+                entry.removeEntry(id);
                 Navigator.of(context).pop();
               },
             ),

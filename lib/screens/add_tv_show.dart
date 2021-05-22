@@ -88,7 +88,7 @@ class _AddTvShowsState extends State<AddTvShows> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.blue[200],
         title: Text(
           "New Tv-Show",
           textAlign: TextAlign.center,
@@ -102,7 +102,7 @@ class _AddTvShowsState extends State<AddTvShows> {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/abs.gif"), fit: BoxFit.cover)),
+                image: AssetImage("assets/grd.jpg"), fit: BoxFit.cover)),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -227,13 +227,13 @@ class _AddTvShowsState extends State<AddTvShows> {
                           style: TextStyle(color: Colors.black),
 
                           items: <String>[
-                            'Mon',
-                            'Tue',
-                            'Wed',
-                            'Thu',
-                            'Fri',
-                            'Sat',
-                            'Sun'
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday',
+                            'Sunday'
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -253,21 +253,16 @@ class _AddTvShowsState extends State<AddTvShows> {
                             });
                           },
                         ),
-                      )
+                      ),
+                      //upload button
+                      IconButton(
+                        icon: const Icon(Icons.file_upload),
+                        tooltip: 'Increase volume by 10',
+                        onPressed: () {
+                          _openFileExplorer();
+                        },
+                      ),
                     ],
-                  ),
-
-                  //upload button
-                  new Padding(
-                    padding: const EdgeInsets.only(top: 5.0, bottom: 20.0),
-                    child: new RaisedButton(
-                      onPressed: () => _openFileExplorer(),
-                      child: new Text("Upload Poster"),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      padding: EdgeInsets.only(left: 40, right: 40),
-                      color: Color(0xff64B6FF),
-                    ),
                   ),
 
                   //submit button

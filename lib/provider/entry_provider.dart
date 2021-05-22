@@ -74,7 +74,7 @@ class EntryProvider with ChangeNotifier {
   }
 
   // Delete
-  removeEntry(Entry entry) {
-    firestoreService.removeEntry(id);
+  removeEntry(String entryId) {
+    firestoreService.removeEntry(entryId);
   }
 }
