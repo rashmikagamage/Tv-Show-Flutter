@@ -16,15 +16,19 @@ class _ViewTvShowState extends State<ViewTvShow> {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[400],
+          backgroundColor: Colors.blue[300],
           title: Text(
-            "Don't Miss Your Favourite Show",
+            "           My Tv-Shows",
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
                   color: Colors.grey[800], letterSpacing: .5, fontSize: 16),
             ),
           ),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.search), color: Colors.white),
+            IconButton(icon: Icon(Icons.more_vert), color: Colors.white)
+          ],
         ),
         body: StreamBuilder<List<Entry>>(
             stream: entryProvider.entries,
@@ -41,7 +45,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
                         },
                         child: Container(
                           child: Card(
-                              color: Colors.white54,
+                              color: Colors.blue[100],
                               elevation: 5,
                               child: Row(
                                 children: <Widget>[

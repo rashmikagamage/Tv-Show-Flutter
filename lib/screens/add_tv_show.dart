@@ -88,7 +88,7 @@ class _AddTvShowsState extends State<AddTvShows> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[400],
+        backgroundColor: Colors.blue[400],
         title: Text(
           "New Tv-Show",
           textAlign: TextAlign.center,

@@ -10,7 +10,7 @@ class AdminHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[400],
+        backgroundColor: Colors.lightBlue[400],
         title: Text(
           "Admin Panel",
           textAlign: TextAlign.center,
