@@ -16,13 +16,13 @@ class _ViewTvShowState extends State<ViewTvShow> {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue[100],
+          flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
           title: Text(
-            "           My Tv-Shows",
+            "Admin Panel",
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
-                  color: Colors.grey[800], letterSpacing: .5, fontSize: 16),
+                  color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
             ),
           ),
           actions: <Widget>[

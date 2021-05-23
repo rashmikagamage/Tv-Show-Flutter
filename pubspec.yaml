@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^1.1.2
   flutter_rating_bar: ^4.0.0
   rating_bar: ^0.2.0
+  uuid: ^3.0.4
  
   
  
@@ -69,6 +70,8 @@ flutter:
     - assets/img5.jpg
     - assets/grd.jpg
     - assets/blur.png
+    - assets/svg.jpg
+    - assets/cinema.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

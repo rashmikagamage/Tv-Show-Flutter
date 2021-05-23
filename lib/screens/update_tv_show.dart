@@ -16,13 +16,13 @@ class _UpdateShowState extends State<UpdateShow> {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue[100],
+          flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
           title: Text(
-            "           My Tv-Shows",
+            "Admin Panel",
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
-                  color: Colors.grey[800], letterSpacing: .5, fontSize: 16),
+                  color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
             ),
           ),
           actions: <Widget>[
@@ -133,7 +133,7 @@ class _UpdateShowState extends State<UpdateShow> {
                                               padding: const EdgeInsets.only(
                                                   left: 120),
                                               child: Icon(
-                                                Icons.notifications_none,
+                                                Icons.edit,
                                                 color: Colors.pink[800],
                                                 size: 24.0,
                                               ),

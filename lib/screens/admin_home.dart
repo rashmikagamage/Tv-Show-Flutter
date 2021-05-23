@@ -13,9 +13,9 @@ class AdminHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue[200],
+        flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
         title: Text(
-          "Admin Panel",
+          "                        Admin Panel",
           textAlign: TextAlign.center,
           style: GoogleFonts.roboto(
             textStyle: TextStyle(
@@ -29,11 +29,14 @@ class AdminHome extends StatelessWidget {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/blur.png"), fit: BoxFit.cover)),
+                  image: AssetImage("assets/svg.jpg"), fit: BoxFit.cover)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 15, top: 80),
+            padding: const EdgeInsets.only(left: 15, top: 40),
             child: Column(
               children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.only(right: 40),
+                    child: Image.asset('assets/cinema.png', width: 250)),
                 //Addd button
                 Container(
                   height: 50.0,
