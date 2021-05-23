@@ -39,6 +39,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   rating_bar: ^0.2.0
   uuid: ^3.0.4
+  animate_do: ^2.0.0
  
   
  

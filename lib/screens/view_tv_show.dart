@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
@@ -149,7 +150,10 @@ class _ViewTvShowState extends State<ViewTvShow> {
                       );
                     });
               } else {
-                return new Container(child: Text('Loading'));
+                return Center(
+                    child: new Container(
+                        child:
+                            Text('Loading', style: TextStyle(fontSize: 25))));
               }
             }));
   }
@@ -159,33 +163,41 @@ class _ViewTvShowState extends State<ViewTvShow> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Get Notification',
-            style: TextStyle(fontSize: 18, color: Colors.grey[700]),
-          ),
-          content: SingleChildScrollView(
-            child: Container(
-                child: Text(
-              'Confirm to get notification for $name ',
-              style: TextStyle(
-                  fontSize: 16, color: Colors.indigo[900], height: 1.75),
-            )),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Confirm'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return BounceInUp(
+          child: AlertDialog(
+            title: Text(
+              'Get Notification',
+              style: TextStyle(fontSize: 18, color: Colors.blue[900]),
             ),
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            content: SingleChildScrollView(
+              child: Column(children: <Widget>[
+                Text(
+                  'Confirm to get notification for $name ',
+                  style: TextStyle(
+                      fontSize: 16, color: Colors.grey[800], height: 1.75),
+                ),
+                Text(
+                  'You will get a Notification and a mobile alert',
+                  style: TextStyle(
+                      fontSize: 12, color: Colors.grey[600], height: 1.75),
+                ),
+              ]),
             ),
-          ],
+            actions: <Widget>[
+              TextButton(
+                child: Text('Confirm'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
         );
       },
     );

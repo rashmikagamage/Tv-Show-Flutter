@@ -149,7 +149,7 @@ class _ViewAdminState extends State<ViewAdmin> {
                       );
                     });
               } else {
-                return new Container(child: Text('Loading'));
+                return new Container(child: Center(child: Text('Loading')));
               }
             }));
   }

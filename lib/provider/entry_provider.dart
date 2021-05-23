@@ -64,6 +64,7 @@ class EntryProvider with ChangeNotifier {
 
   // Update
   updateEntry() {
+    print(_id);
     var entry = Entry(
         id: _id,
         name: _name,

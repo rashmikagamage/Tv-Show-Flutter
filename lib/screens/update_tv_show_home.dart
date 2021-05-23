@@ -7,14 +7,21 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:provider/provider.dart';
+import 'package:tvshowsapp/models/tvshow.dart';
+import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:uuid/uuid.dart';
 
-class AddTvShows extends StatefulWidget {
+class UpdateHome extends StatefulWidget {
+  Entry entry;
+  UpdateHome({this.entry});
   @override
-  _AddTvShowsState createState() => _AddTvShowsState();
+  _UpdateHomeState createState() => _UpdateHomeState();
 }
 
-class _AddTvShowsState extends State<AddTvShows> {
+class _UpdateHomeState extends State<UpdateHome> {
+  var name = TextEditingController();
+  var showTime = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final format = DateFormat("HH:mm");
   String fileName;
@@ -26,67 +33,54 @@ class _AddTvShowsState extends State<AddTvShows> {
   FileType fileType = FileType.image;
   String _chosenValue;
   String id = 'adad';
-  var uuid = Uuid();
-  String name = 'dada';
-  String showTime;
   String day;
   String channel;
   Map data;
+  var entryProvider;
 
-  void _openFileExplorer() async {
-    setState(() => isLoadingPath = true);
-    try {
-      if (isMultiPick) {
-        path = null;
-        paths = await FilePicker.getMultiFilePath(
-            type: fileType != null ? fileType : FileType.any,
-            allowedExtensions: extensions);
-      } else {
-        path = await FilePicker.getFilePath(
-            type: fileType != null ? fileType : FileType.any,
-            allowedExtensions: extensions);
-        paths = null;
-      }
-    } on PlatformException catch (e) {
-      print("Unsupported operation" + e.toString());
-    }
-    if (!mounted) return;
-    setState(() {
-      isLoadingPath = false;
-      fileName = path != null
-          ? path.split('/').last
-          : paths != null
-              ? paths.keys.toString()
-              : '...';
-    });
+  @override
+  void dispose() {
+    name.dispose();
+    super.dispose();
   }
 
-  addToDB(String id, String name, String channel, String day, String time) {
-    id = uuid.v1();
+  @override
+  void initState() {
+    name.text = widget.entry.name;
+    showTime.text = widget.entry.showTime;
+    day = widget.entry.day;
+    channel = widget.entry.channel;
+    id = widget.entry.id;
+  }
 
-    Map<String, dynamic> demo = {
+  addToDB(String id, String channel, String day) {
+    Map<String, dynamic> tvShow = {
       "id": id,
-      "name": name,
+      "name": name.text,
       "channel": channel,
       "day": day,
-      "time": time.substring(11, 16),
+      "time": showTime.text.substring(11, 16),
       "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB'
     };
 
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('tvshows');
-    collectionReference.add(demo);
+    FirebaseFirestore _db = FirebaseFirestore.instance;
+    var options = SetOptions(merge: true);
+    _db.collection('tvshows').where("id", isEqualTo: id).get().then((snapshot) {
+      snapshot.docs.first.reference.set(tvShow, options);
+    });
 
     Fluttertoast.showToast(
-        msg: "Successfully Added",
+        msg: "Successfully Updated",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
-        backgroundColor: Colors.blue[500],
-        textColor: Colors.grey[800],
-        fontSize: 16.0);
+        backgroundColor: Colors.lightBlue[400],
+        textColor: Colors.black,
+        fontSize: 14.0);
     _formKey.currentState.reset();
     day = "";
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -96,7 +90,7 @@ class _AddTvShowsState extends State<AddTvShows> {
       appBar: AppBar(
         flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
         title: Text(
-          "         Add new Tv-Show",
+          "         Update Tv-Show",
           textAlign: TextAlign.center,
           style: GoogleFonts.roboto(
             textStyle: TextStyle(
@@ -134,8 +128,8 @@ class _AddTvShowsState extends State<AddTvShows> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: TextFormField(
+                          controller: name,
                           decoration: InputDecoration(
-                            hintText: 'Tv-Show Name',
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(15.0),
@@ -150,9 +144,7 @@ class _AddTvShowsState extends State<AddTvShows> {
                               return null;
                             }
                           },
-                          onSaved: (text) {
-                            name = text;
-                          },
+                          onSaved: (text) {},
                         ),
                       ),
                     ),
@@ -161,6 +153,7 @@ class _AddTvShowsState extends State<AddTvShows> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
                       child: DateTimeField(
+                        controller: showTime,
                         decoration: InputDecoration(
                           hintText: 'Select Show Time',
                           fillColor: Colors.white,
@@ -180,7 +173,7 @@ class _AddTvShowsState extends State<AddTvShows> {
                           return DateTimeField.convert(time);
                         },
                         onSaved: (text) {
-                          showTime = text.toString();
+                          showTime.text = text.toString();
                         },
                       ),
                     ),
@@ -259,14 +252,12 @@ class _AddTvShowsState extends State<AddTvShows> {
                         IconButton(
                           icon: const Icon(Icons.file_upload),
                           tooltip: 'Increase volume by 10',
-                          onPressed: () {
-                            _openFileExplorer();
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     ),
 
-                    //submit button
+                    //update button
                     Container(
                       height: 50.0,
                       margin: EdgeInsets.all(10),
@@ -274,7 +265,7 @@ class _AddTvShowsState extends State<AddTvShows> {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            addToDB(id, name, channel, day, showTime);
+                            addToDB(id, channel, day);
                           }
                         },
                         shape: RoundedRectangleBorder(
@@ -293,7 +284,7 @@ class _AddTvShowsState extends State<AddTvShows> {
                                 maxWidth: 250.0, minHeight: 50.0),
                             alignment: Alignment.center,
                             child: Text(
-                              "ADD SHOW",
+                              "Update ",
                               textAlign: TextAlign.center,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 15),
@@ -362,5 +353,3 @@ class _AddTvShowsState extends State<AddTvShows> {
     );
   }
 }
-
-class FirebaseApp {}

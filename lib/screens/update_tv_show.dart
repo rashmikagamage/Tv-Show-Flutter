@@ -1,9 +1,11 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
 import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_bar/rating_bar.dart';
+import 'package:tvshowsapp/screens/update_tv_show_home.dart';
 
 class UpdateShow extends StatefulWidget {
   @override
@@ -33,7 +35,7 @@ class _UpdateShowState extends State<UpdateShow> {
         body: StreamBuilder<List<Entry>>(
             stream: entryProvider.entries,
             builder: (context, snapshot) {
-              if (snapshot.data.length != 0) {
+              if (snapshot.data != null) {
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     scrollDirection: Axis.vertical,
@@ -41,7 +43,12 @@ class _UpdateShowState extends State<UpdateShow> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          print(snapshot.data[index].name);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return UpdateHome(
+                              entry: snapshot.data[index],
+                            );
+                          }));
                         },
                         child: Container(
                           child: Card(
@@ -132,10 +139,13 @@ class _UpdateShowState extends State<UpdateShow> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 120),
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: Colors.pink[800],
-                                                size: 24.0,
+                                              child: Roulette(
+                                                infinite: true,
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: Colors.pink[800],
+                                                  size: 24.0,
+                                                ),
                                               ),
                                             ),
                                           ]),
