@@ -22,4 +22,12 @@ class FirestoreService {
       snapshot.docs.first.reference.delete();
     });
   }
+
+  void tvShowStream() async{
+    await for( var snapshot in _db.collection('tvshows').snapshots()){
+      for (var message in snapshot.docs){
+        print(message.data());
+      }
+    }
+  }
 }
