@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:tvshowsapp/screens/add_tv_show.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
+import 'package:tvshowsapp/screens/home_screen.dart';
 import 'package:tvshowsapp/screens/view_tv_show.dart';
 
 void main() async {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EntryProvider(),
       child: MaterialApp(
-          home: AdminHome(),
+          home: HomeScreeen(),
           theme: ThemeData(
             accentColor: Colors.pinkAccent,
             primaryColor: Colors.black,
