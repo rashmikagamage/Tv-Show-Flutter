@@ -98,7 +98,7 @@ class _HomeScreeenState extends State<HomeScreeen> {
             color: Colors.black),
         title: Center(
           child: Text(
-            'My Tv-Shows',
+            'My Tv-Shows'.toUpperCase(),
             style: Theme.of(context).textTheme.caption.copyWith(
                 color: Colors.blue[900],
                 fontSize: 20,
