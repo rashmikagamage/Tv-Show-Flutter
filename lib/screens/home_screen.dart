@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tvshowsapp/services/firestore_services.dart';
+
 import 'package:tvshowsapp/services/dataProvider.dart';
 import 'package:tvshowsapp/widgets/day_scroll.dart';
 
@@ -91,29 +91,22 @@ class _HomeScreeenState extends State<HomeScreeen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-            padding: EdgeInsets.only(left: 30.0),
+            padding: EdgeInsets.only(left: 0.0),
             onPressed: () => print('Menu'),
             icon: Icon(Icons.menu),
             iconSize: 30.0,
             color: Colors.black),
         title: Center(
           child: Text(
-            'TV-Shows'.toUpperCase(),
+            'My Tv-Shows',
             style: Theme.of(context).textTheme.caption.copyWith(
-                color: Colors.red[600],
+                color: Colors.blue[900],
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'muli'),
           ),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profPic.png'),
-            ),
-          )
-        ],
+        actions: [],
       ),
       body: ListView(
         children: [
@@ -143,11 +136,11 @@ class _HomeScreeenState extends State<HomeScreeen> {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Color(0xFFD45253), Color(0xFF9E1F28)],
+                          colors: [Colors.indigo[900], Colors.blue[300]],
                         ),
                         boxShadow: [
                           BoxShadow(
-                              color: Color(0xFF9E1F28),
+                              color: Colors.black,
                               offset: Offset(0.0, 2.0),
                               blurRadius: 6.0)
                         ]),
