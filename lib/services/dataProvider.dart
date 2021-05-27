@@ -47,3 +47,15 @@ List<Show> showList = [
       description: 'This is a drama and action genre tv show',
       rating: 4.8),
 ];
+
+List<String> days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+];
+
+
