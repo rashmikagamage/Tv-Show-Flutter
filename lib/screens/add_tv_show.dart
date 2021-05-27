@@ -92,272 +92,278 @@ class _AddTvShowsState extends State<AddTvShows> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
-        title: Text(
-          "         Add new Tv-Show",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.roboto(
-            textStyle: TextStyle(
-                color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
-          ),
-        ),
-      ),
+      // resizeToAvoidBottomInset: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/svg.jpg"), fit: BoxFit.cover),
+              image: AssetImage("assets/abs.gif"), fit: BoxFit.cover),
         ),
-        child: Column(children: <Widget>[
-          ZoomIn(
-            child: Padding(
-                padding: const EdgeInsets.only(right: 45, top: 20, left: 20),
-                child: Image.asset('assets/cinema.png', width: 250)),
-          ),
-          SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Container(
-                margin:
-                    const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 0.0, bottom: 10.0, left: 20),
-                    ),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            ZoomIn(
+              child: Padding(
+                  padding: const EdgeInsets.only(right: 45, top: 20, left: 20),
+                  child: Image.asset('assets/cinema.png', width: 450)),
+            ),
+            SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 20),
+                      ),
 
-                    //tv show name
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
+                      //tv show name
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'Tv-Show Name',
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 5.0),
+                              ),
+                            ),
+                            validator: (text) {
+                              if (text.isEmpty) {
+                                return "Name cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (text) {
+                              name = text;
+                            },
+                          ),
+                        ),
+                      ),
+
+                      //show time
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                        child: DateTimeField(
                           decoration: InputDecoration(
-                            hintText: 'Tv-Show Name',
+                            hintText: 'Select Show Time',
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(15.0),
-                              borderSide: const BorderSide(
-                                  color: Colors.black, width: 5.0),
+                              borderSide: new BorderSide(),
                             ),
                           ),
-                          validator: (text) {
-                            if (text.isEmpty) {
-                              return "Name cannot be empty";
-                            } else {
-                              return null;
-                            }
+                          format: format,
+                          onShowPicker: (context, currentValue) async {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                  currentValue ?? DateTime.now()),
+                            );
+
+                            return DateTimeField.convert(time);
                           },
                           onSaved: (text) {
-                            name = text;
+                            showTime = text.toString();
                           },
                         ),
                       ),
-                    ),
 
-                    //show time
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-                      child: DateTimeField(
-                        decoration: InputDecoration(
-                          hintText: 'Select Show Time',
-                          fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(),
-                          ),
-                        ),
-                        format: format,
-                        onShowPicker: (context, currentValue) async {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                                currentValue ?? DateTime.now()),
-                          );
+                      //channel select
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(top: 0.0, left: 4.0),
+                            child: DropdownButton<String>(
+                              value: channel,
+                              //elevation: 5,
+                              style: TextStyle(color: Colors.black),
 
-                          return DateTimeField.convert(time);
-                        },
-                        onSaved: (text) {
-                          showTime = text.toString();
-                        },
-                      ),
-                    ),
-
-                    //channel select
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(top: 0.0, left: 4.0),
-                          child: DropdownButton<String>(
-                            value: channel,
-                            //elevation: 5,
-                            style: TextStyle(color: Colors.black),
-
-                            items: <String>[
-                              'HBO',
-                              'TV Network',
-                              'ABC',
-                              'Netflix'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Select Channel",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                channel = value;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 25.0),
-                          child: DropdownButton<String>(
-                            value: day,
-                            //elevation: 5,
-                            style: TextStyle(color: Colors.black),
-
-                            items: <String>[
-                              'Monday',
-                              'Tuesday',
-                              'Wednesday',
-                              'Thursday',
-                              'Friday',
-                              'Saturday',
-                              'Sunday'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Select Day",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                day = value;
-                              });
-                            },
-                          ),
-                        ),
-                        //upload button
-                        IconButton(
-                          icon: const Icon(Icons.file_upload),
-                          tooltip: 'Increase volume by 10',
-                          onPressed: () {
-                            _openFileExplorer();
-                          },
-                        ),
-                      ],
-                    ),
-
-                    //submit button
-                    Container(
-                      height: 50.0,
-                      margin: EdgeInsets.all(10),
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            addToDB(id, name, channel, day, showTime);
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(80.0)),
-                        padding: EdgeInsets.all(0.0),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
+                              items: <String>[
+                                'HBO',
+                                'TV Network',
+                                'ABC',
+                                'Netflix'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              hint: Text(
+                                "Select Channel",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: Container(
-                            constraints: BoxConstraints(
-                                maxWidth: 250.0, minHeight: 50.0),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "ADD SHOW",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
+                              onChanged: (String value) {
+                                setState(() {
+                                  channel = value;
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: DropdownButton<String>(
+                              value: day,
+                              //elevation: 5,
+                              style: TextStyle(color: Colors.black),
+
+                              items: <String>[
+                                'Monday',
+                                'Tuesday',
+                                'Wednesday',
+                                'Thursday',
+                                'Friday',
+                                'Saturday',
+                                'Sunday'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              hint: Text(
+                                "Select Day",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  day = value;
+                                });
+                              },
+                            ),
+                          ),
+                          //upload button
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(top: 8, left: 4),
+                              child: const Icon(
+                                Icons.file_upload,
+                                color: Colors.black,
+                                size: 25,
+                              ),
+                            ),
+                            tooltip: 'Increase volume by 10',
+                            onPressed: () {
+                              _openFileExplorer();
+                            },
+                          ),
+                        ],
+                      ),
+
+                      //submit button
+                      Container(
+                        height: 50.0,
+                        margin: EdgeInsets.all(20),
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              addToDB(id, name, channel, day, showTime);
+                            }
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(80.0)),
+                          padding: EdgeInsets.all(0.0),
+                          child: Ink(
+                            width: 450,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: 250.0, minHeight: 50.0),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "ADD SHOW",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
 
-                    //image description
-                    new Builder(
-                      builder: (BuildContext context) => isLoadingPath
-                          ? Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: const CircularProgressIndicator())
-                          : path != null || paths != null
-                              ? new Container(
-                                  padding: const EdgeInsets.only(bottom: 30.0),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.50,
-                                  child: new Scrollbar(
-                                    child: new ListView.separated(
-                                      itemCount:
-                                          paths != null && paths.isNotEmpty
-                                              ? paths.length
-                                              : 1,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final bool isMultiPath =
-                                            paths != null && paths.isNotEmpty;
-                                        final int fileNo = index + 1;
-                                        final String name = 'File $fileNo : ' +
-                                            (isMultiPath
-                                                ? paths.keys.toList()[index]
-                                                : fileName ?? '...');
-                                        final filePath = isMultiPath
-                                            ? paths.values
-                                                .toList()[index]
-                                                .toString()
-                                            : path;
-                                        return new ListTile(
-                                          title: new Text(
-                                            name,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          subtitle: new Text(filePath),
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                              new Divider(),
+                      //image description
+                      new Builder(
+                        builder: (BuildContext context) => isLoadingPath
+                            ? Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: const CircularProgressIndicator())
+                            : path != null || paths != null
+                                ? new Container(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 30.0),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.50,
+                                    child: new Scrollbar(
+                                      child: new ListView.separated(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            paths != null && paths.isNotEmpty
+                                                ? paths.length
+                                                : 1,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          final bool isMultiPath =
+                                              paths != null && paths.isNotEmpty;
+                                          final int fileNo = index + 1;
+                                          final String name =
+                                              'File $fileNo : ' +
+                                                  (isMultiPath
+                                                      ? paths.keys
+                                                          .toList()[index]
+                                                      : fileName ?? '...');
+                                          final filePath = isMultiPath
+                                              ? paths.values
+                                                  .toList()[index]
+                                                  .toString()
+                                              : path;
+                                          return new ListTile(
+                                            title: new Text(
+                                              name,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: new Text(filePath),
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) =>
+                                                new Divider(),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : new Container(),
-                    ),
-                  ],
+                                  )
+                                : new Container(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

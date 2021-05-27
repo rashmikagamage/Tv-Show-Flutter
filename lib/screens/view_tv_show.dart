@@ -132,7 +132,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 120),
+                                                  left: 150),
                                               child: Icon(
                                                 Icons.notifications_none,
                                                 color: Colors.pink[800],

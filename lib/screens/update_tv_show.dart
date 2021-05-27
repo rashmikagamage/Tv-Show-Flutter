@@ -17,21 +17,6 @@ class _UpdateShowState extends State<UpdateShow> {
   Widget build(BuildContext context) {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
-          title: Text(
-            "Admin Panel",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.roboto(
-              textStyle: TextStyle(
-                  color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
-            ),
-          ),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), color: Colors.white),
-            IconButton(icon: Icon(Icons.more_vert), color: Colors.white)
-          ],
-        ),
         body: StreamBuilder<List<Entry>>(
             stream: entryProvider.entries,
             builder: (context, snapshot) {
@@ -138,7 +123,7 @@ class _UpdateShowState extends State<UpdateShow> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 120),
+                                                  left: 150),
                                               child: Roulette(
                                                 infinite: true,
                                                 child: Icon(
@@ -159,7 +144,10 @@ class _UpdateShowState extends State<UpdateShow> {
                       );
                     });
               } else {
-                return new Container(child: Text('Loading'));
+                return Center(
+                    child: new Container(
+                        child:
+                            Text('Loading', style: TextStyle(fontSize: 25))));
               }
             }));
   }

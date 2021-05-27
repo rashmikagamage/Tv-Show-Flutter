@@ -15,25 +15,10 @@ class _ViewAdminState extends State<ViewAdmin> {
   Widget build(BuildContext context) {
     final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
-          title: Text(
-            "              Admin Panel",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.roboto(
-              textStyle: TextStyle(
-                  color: Colors.grey[900], letterSpacing: .5, fontSize: 16),
-            ),
-          ),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), color: Colors.white),
-            IconButton(icon: Icon(Icons.more_vert), color: Colors.white)
-          ],
-        ),
         body: StreamBuilder<List<Entry>>(
             stream: entryProvider.entries,
             builder: (context, snapshot) {
-              if (snapshot.data.length != 0) {
+              if (snapshot.data != null) {
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     scrollDirection: Axis.vertical,
@@ -131,7 +116,7 @@ class _ViewAdminState extends State<ViewAdmin> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 120),
+                                                  left: 150),
                                               child: Icon(
                                                 Icons.notifications_none,
                                                 color: Colors.pink[800],
@@ -149,7 +134,10 @@ class _ViewAdminState extends State<ViewAdmin> {
                       );
                     });
               } else {
-                return new Container(child: Center(child: Text('Loading')));
+                return Center(
+                    child: new Container(
+                        child:
+                            Text('Loading', style: TextStyle(fontSize: 25))));
               }
             }));
   }

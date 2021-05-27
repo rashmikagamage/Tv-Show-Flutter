@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:provider/provider.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
-import 'package:tvshowsapp/provider/entry_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class UpdateHome extends StatefulWidget {
   Entry entry;
@@ -54,12 +50,15 @@ class _UpdateHomeState extends State<UpdateHome> {
   }
 
   addToDB(String id, String channel, String day) {
+    if (showTime.text.length > 10) {
+      showTime.text = showTime.text.substring(11, 16);
+    }
     Map<String, dynamic> tvShow = {
       "id": id,
       "name": name.text,
       "channel": channel,
       "day": day,
-      "time": showTime.text.substring(11, 16),
+      "time": showTime.text,
       "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB'
     };
 
@@ -88,7 +87,10 @@ class _UpdateHomeState extends State<UpdateHome> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
+        flexibleSpace: Image.asset(
+          "assets/grd.jpg",
+          fit: BoxFit.cover,
+        ),
         title: Text(
           "         Update Tv-Show",
           textAlign: TextAlign.center,
@@ -102,13 +104,13 @@ class _UpdateHomeState extends State<UpdateHome> {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/svg.jpg"), fit: BoxFit.cover),
+              image: AssetImage("assets/abs.gif"), fit: BoxFit.cover),
         ),
         child: Column(children: <Widget>[
           ZoomIn(
             child: Padding(
-                padding: const EdgeInsets.only(right: 45, top: 20, left: 20),
-                child: Image.asset('assets/cinema.png', width: 250)),
+                padding: const EdgeInsets.only(right: 45, top: 40, left: 20),
+                child: Image.asset('assets/cinema.png', width: 450)),
           ),
           SingleChildScrollView(
             child: Form(
@@ -182,11 +184,11 @@ class _UpdateHomeState extends State<UpdateHome> {
                     Row(
                       children: <Widget>[
                         Container(
-                          padding: const EdgeInsets.only(top: 0.0, left: 4.0),
+                          padding: const EdgeInsets.only(top: 10.0, left: 4.0),
                           child: DropdownButton<String>(
                             value: channel,
                             //elevation: 5,
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.black, fontSize: 18),
 
                             items: <String>[
                               'HBO',
@@ -218,7 +220,7 @@ class _UpdateHomeState extends State<UpdateHome> {
                           child: DropdownButton<String>(
                             value: day,
                             //elevation: 5,
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.black, fontSize: 18),
 
                             items: <String>[
                               'Monday',
@@ -272,6 +274,7 @@ class _UpdateHomeState extends State<UpdateHome> {
                             borderRadius: BorderRadius.circular(80.0)),
                         padding: EdgeInsets.all(0.0),
                         child: Ink(
+                          width: 450,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [Color(0xff374ABE), Color(0xff64B6FF)],
