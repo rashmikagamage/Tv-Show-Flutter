@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tvshowsapp/widgets/side_bar.dart';
 
 import 'package:tvshowsapp/services/dataProvider.dart';
 import 'package:tvshowsapp/widgets/day_scroll.dart';
@@ -87,16 +88,13 @@ class _HomeScreeenState extends State<HomeScreeen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: SideBar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
-        leading: IconButton(
-            padding: EdgeInsets.only(left: 0.0),
-            onPressed: () => print('Menu'),
-            icon: Icon(Icons.menu),
-            iconSize: 30.0,
-            color: Colors.black),
-        title: Center(
+        title: Container(
+          margin: EdgeInsets.only(left: 70.0),
           child: Text(
             'My Tv-Shows'.toUpperCase(),
             style: Theme.of(context).textTheme.caption.copyWith(
