@@ -25,7 +25,7 @@ class SideBar extends StatelessWidget {
           ListTile(
               leading: Icon(Icons.favorite),
               title: Text('Favorites'),
-              onTap: () => print('fav clicled!')),
+              onTap: () => print('fav clicker!')),
           ListTile(
               leading: Icon(Icons.tv),
               title: Text('Channels'),

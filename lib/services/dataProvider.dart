@@ -8,8 +8,8 @@ List<Show> showList = [
       showTime: '8.00P.M',
       day: 'Monday',
       channel: 'HBO',
-      description: 'This is a drama and action genre tv show',
-      rating: 4.5),
+      rating: 4.5,
+      ratedUsersCount: 10),
   Show(
       name: 'Peaky Blinders',
       imageUrl:
@@ -17,8 +17,8 @@ List<Show> showList = [
       showTime: '9.00P.M',
       day: 'Tuesday',
       channel: 'NBC',
-      description: 'This is a drama and action genre tv show',
-      rating: 4.8),
+      rating: 4.8,
+      ratedUsersCount: 5),
   Show(
       name: 'Money Heist',
       imageUrl:
@@ -26,8 +26,8 @@ List<Show> showList = [
       showTime: '7.00P.M',
       day: 'Wednesday',
       channel: 'CBN',
-      description: 'This is a drama and action genre tv show',
-      rating: 4.6),
+      rating: 4.6,
+      ratedUsersCount: 15),
   Show(
       name: 'Stranger Things',
       imageUrl:
@@ -35,8 +35,9 @@ List<Show> showList = [
       showTime: '8.00P.M',
       day: 'Thursday',
       channel: 'HBO',
-      description: 'This is a thriller and action genre tv show',
-      rating: 4.4),
+    
+      rating: 4.4,
+      ratedUsersCount: 20),
   Show(
       name: 'Game of Thrones',
       imageUrl:
@@ -44,8 +45,8 @@ List<Show> showList = [
       showTime: '6.00P.M',
       day: 'Friday',
       channel: 'CBN',
-      description: 'This is a drama and action genre tv show',
-      rating: 4.8),
+      rating: 4.8,
+      ratedUsersCount: 10),
 ];
 
 List<String> days = [
@@ -57,5 +58,4 @@ List<String> days = [
   'Saturday',
   'Sunday'
 ];
-
 

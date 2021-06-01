@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tvshowsapp/models/show.dart';
 
 class DayScroll extends StatelessWidget {
-  final List<String> images;
+  final List<Show> showList;
   final String title;
   final double imageHeight;
   final double imageWidth;
+  double userRating = 0.0;
 
-  DayScroll({this.images, this.title, this.imageHeight, this.imageWidth});
+  DayScroll({this.showList, this.title, this.imageHeight, this.imageWidth});
+
+  void userRated(String title, double currentRating, int count, double rating) {
+    count += 1;
+    double newRating = currentRating + rating / count;
+    print(title + ' ' + rating.toString());
+    print(num.parse(newRating.toStringAsFixed(1) ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +47,59 @@ class DayScroll extends StatelessWidget {
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 30.0),
             scrollDirection: Axis.horizontal,
-            itemCount: images.length,
+            itemCount: showList.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                 width: imageWidth,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
+                    boxShadow: [ 
                       BoxShadow(
                         color: Colors.black54,
                         offset: Offset(0.0, 4.0),
                         blurRadius: 6.0,
                       )
                     ]),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image(
-                    image: NetworkImage(images[index]),
-                    fit: BoxFit.cover,
+                child: GestureDetector(
+                  onLongPress: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: Text('Rate ${showList[index].name}'),
+                            content: RatingBar.builder(
+                              initialRating: 1,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {
+                                userRating = value;
+                              },
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(
+                                      context,
+                                      userRated(
+                                          showList[index].name,
+                                          showList[index].rating,
+                                          showList[index].ratedUsersCount,
+                                          userRating)),
+                                  child: Text('Submit'))
+                            ],
+                          )),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image(
+                      image: NetworkImage(showList[index].imageUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               );
