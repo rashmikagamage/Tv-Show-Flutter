@@ -165,10 +165,10 @@ class _HomeScreeenState extends State<HomeScreeen> {
             imageWidth: 150.0,
           ),
           // DayScroll(
-          //   images: imagesList,
+          //   showList: showList,
           //   title: 'Favourites',
-          //   imageHeight: 250.0,
-          //   imageWidth: 150.0,
+          //   imageHeight: 300.0,
+          //   imageWidth: 100.0,
           // ),
         ],
       ),

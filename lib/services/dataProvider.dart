@@ -17,7 +17,7 @@ List<Show> showList = [
       showTime: '9.00P.M',
       day: 'Tuesday',
       channel: 'NBC',
-      rating: 4.8,
+      rating: 3.5,
       ratedUsersCount: 5),
   Show(
       name: 'Money Heist',
@@ -35,7 +35,6 @@ List<Show> showList = [
       showTime: '8.00P.M',
       day: 'Thursday',
       channel: 'HBO',
-    
       rating: 4.4,
       ratedUsersCount: 20),
   Show(
@@ -58,4 +57,3 @@ List<String> days = [
   'Saturday',
   'Sunday'
 ];
-
