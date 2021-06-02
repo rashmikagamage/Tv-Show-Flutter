@@ -40,6 +40,9 @@ dependencies:
   rating_bar: ^0.2.0
   uuid: ^3.0.4
   animate_do: ^2.0.0
+  flutter_local_notifications: ^3.0.1+6
+  flutter_custom_dialog: ^1.0.20
+
  
   
  
@@ -73,6 +76,15 @@ flutter:
     - assets/blur.png
     - assets/svg.jpg
     - assets/cinema.png
+    - assets/channel1.png
+    - assets/channel2.png
+    - assets/channel3.png
+    - assets/image1.jpg
+    - assets/image2.jpg
+    - assets/image3.jpg
+    - assets/image4.jpg
+    - assets/image5.jpg
+   
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
