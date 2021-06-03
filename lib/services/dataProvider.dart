@@ -57,3 +57,12 @@ List<String> days = [
   'Saturday',
   'Sunday'
 ];
+
+
+List<String> imageUrls = [
+  'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202001/Breaking_Bad.jpeg?Ifrqi.v01Y0KfAlAyY172HCu8HZTJJvy&size=770:433',
+  'https://i.pinimg.com/736x/85/0a/61/850a61861d95a988d69418d7e9362df5.jpg',
+  'https://images.indulgexpress.com/uploads/user/imagelibrary/2020/11/16/original/22811ab3aba79eda805eaf30e3d9a873.jpg',
+  'https://cdn.mos.cms.futurecdn.net/dFTKSPFwMCVDCh5DcMQyY9-1200-80.jpg',
+  'https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2019/09/game-of-thrones-1568627394.jpeg',
+];

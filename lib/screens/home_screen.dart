@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tvshowsapp/models/tvshow.dart';
+import 'package:tvshowsapp/provider/entry_provider.dart';
+import 'package:tvshowsapp/screens/admin_home.dart';
+import 'package:tvshowsapp/services/firestore_services.dart';
 import 'package:tvshowsapp/widgets/side_bar.dart';
-
 import 'package:tvshowsapp/services/dataProvider.dart';
-import 'package:tvshowsapp/widgets/day_scroll.dart';
+import 'package:tvshowsapp/widgets/single_show.dart';
 
 class HomeScreeen extends StatefulWidget {
   @override
@@ -11,16 +15,16 @@ class HomeScreeen extends StatefulWidget {
 
 class _HomeScreeenState extends State<HomeScreeen> {
   PageController _pageController;
-  var imagesList;
+  FirestoreService _fs = FirestoreService();
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
-    imagesList = showList.map((show) => show.imageUrl).toList();
+    // _fs.getshows();
   }
 
-  _showSelector(int index) {
+  _showSelector(int index, showList) {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget) {
@@ -53,13 +57,26 @@ class _HomeScreeenState extends State<HomeScreeen> {
               ),
               child: Center(
                 child: Hero(
-                  tag: showList[index].imageUrl,
+                  tag: imageUrls[index],
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Image(
-                      image: NetworkImage(showList[index].imageUrl),
-                      height: 220.0,
+                    child: Image.network(
+                      imageUrls[index],
                       fit: BoxFit.cover,
+                      height: 220.0,
+                      loadingBuilder: (BuildContext ctx, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.blue[700]),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -87,6 +104,7 @@ class _HomeScreeenState extends State<HomeScreeen> {
 
   @override
   Widget build(BuildContext context) {
+    final entryProvider = Provider.of<EntryProvider>(context);
     return Scaffold(
       drawer: SideBar(),
       appBar: AppBar(
@@ -106,72 +124,106 @@ class _HomeScreeenState extends State<HomeScreeen> {
         ),
         actions: [],
       ),
-      body: ListView(
-        children: [
-          Container(
-            height: 280.0,
-            width: double.infinity,
-            child: PageView.builder(
-              controller: _pageController,
-              itemBuilder: (BuildContext context, int index) {
-                return _showSelector(index);
-              },
-              itemCount: showList.length,
-            ),
-          ),
-          Container(
-            height: 90.0,
-            child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 30.0),
-                scrollDirection: Axis.horizontal,
-                itemCount: days.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.all(10.0),
-                    width: 160.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.indigo[900], Colors.blue[300]],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(0.0, 2.0),
-                              blurRadius: 6.0)
-                        ]),
-                    child: Center(
-                      child: Text(
-                        days[index].toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.8),
-                      ),
-                    ),
-                  );
-                }),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          DayScroll(
-            showList: showList,
-            title: 'My List',
-            imageHeight: 250.0,
-            imageWidth: 150.0,
-          ),
-          // DayScroll(
-          //   showList: showList,
-          //   title: 'Favourites',
-          //   imageHeight: 300.0,
-          //   imageWidth: 100.0,
-          // ),
-        ],
+      body: StreamBuilder(
+        stream: entryProvider.entries,
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            return ListView(
+              children: [
+                Container(
+                  height: 280.0,
+                  width: double.infinity,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _showSelector(index, snapshot.data);
+                    },
+                    itemCount: snapshot.data.length,
+                  ),
+                ),
+                Container(
+                  height: 90.0,
+                  child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 30.0),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: days.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TextButton(
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminHome())),
+                          child: Container(
+                            margin: EdgeInsets.all(10.0),
+                            width: 160.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.indigo[900],
+                                    Colors.blue[300]
+                                  ],
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 6.0)
+                                ]),
+                            child: Center(
+                              child: Text(
+                                days[index].toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.8),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                SingleShow(
+                  showList: snapshot.data,
+                  title: 'My List',
+                  imageHeight: 250.0,
+                  imageWidth: 150.0,
+                ),
+                // DayScroll(
+                //   showList: showList,
+                //   title: 'Favourites',
+                //   imageHeight: 300.0,
+                //   imageWidth: 100.0,
+                // ),
+              ],
+            );
+          } else {
+            return Center(
+                child: Center(
+              child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue)),
+            ));
+          }
+        },
       ),
     );
   }
 }
+
+// () => Navigator.push(context,MaterialPageRoute(builder: (context) => ViewAdmin()))
+
+
+
+
+
+// Image(
+//                       image: NetworkImage(imageUrls[index]),
+//                       height: 220.0,
+//                       fit: BoxFit.cover,
+//                     )

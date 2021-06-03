@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tvshowsapp/models/show.dart';
+import 'package:tvshowsapp/models/tvshow.dart';
 import 'package:tvshowsapp/screens/view_admin.dart';
 import 'package:tvshowsapp/widgets/rating_star.dart';
+import 'package:tvshowsapp/services/dataProvider.dart';
 
-class DayScroll extends StatelessWidget {
-  final List<Show> showList;
+class SingleShow extends StatelessWidget {
+  final List<Entry> showList;
   final String title;
   final double imageHeight;
   final double imageWidth;
   double userRating = 1.0;
 
-  DayScroll({this.showList, this.title, this.imageHeight, this.imageWidth});
+  SingleShow({this.showList, this.title, this.imageHeight, this.imageWidth});
 
   void userRated(String title, double currentRating, int count, double rating) {
     count += 1;
@@ -96,17 +98,32 @@ class DayScroll extends StatelessWidget {
                                             context,
                                             userRated(
                                                 showList[index].name,
-                                                showList[index].rating,
-                                                showList[index].ratedUsersCount,
+                                                double.parse(
+                                                    showList[index].rating),
+                                                int.parse(showList[index]
+                                                    .ratedUsersCount),
                                                 userRating)),
                                         child: Text('Submit'))
                                   ],
                                 )),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
-                          child: Image(
-                            image: NetworkImage(showList[index].imageUrl),
+                          child: Image.network(
+                            imageUrls[index],
                             fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext ctx, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.blue[700]),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -115,7 +132,7 @@ class DayScroll extends StatelessWidget {
                         top: 170.0,
                         right: 10.0,
                         child: StarRating(
-                          rating: showList[index].rating,
+                          rating: double.parse(showList[index].rating),
                         )),
                     Positioned(
                         top: 170.0,
@@ -127,7 +144,7 @@ class DayScroll extends StatelessWidget {
                               color: Colors.white,
                             ),
                             Text(
-                              showList[index].ratedUsersCount.toString(),
+                              showList[index].ratedUsersCount,
                               style: TextStyle(color: Colors.white),
                             )
                           ],
