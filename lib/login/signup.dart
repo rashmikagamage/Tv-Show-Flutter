@@ -11,7 +11,7 @@ import 'package:tvshowsapp/login/add_signup_details.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
 import 'package:tvshowsapp/main.dart';
 import 'package:tvshowsapp/login/login.dart';
-import 'package:tvshowsapp/login/start.dart';
+
 
 
 
@@ -293,7 +293,7 @@ class _SignUpState extends State<SignUp> {
                               obscureText: true,
                               onSaved: (input) => _password = input),
                         ),
-                        SizedBox(height: 10),
+                        /*SizedBox(height: 10),
                         RaisedButton(
                           padding: EdgeInsets.fromLTRB(70, 10, 70, 10),
                           onPressed: (){
@@ -308,6 +308,36 @@ class _SignUpState extends State<SignUp> {
                           color: const Color(0xFFF50057),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),*/
+                        Container(
+                          height: 50.0,
+                          margin: EdgeInsets.all(10),
+                          child: RaisedButton(
+                            onPressed: (){
+                              uploadPic(context);
+                              signUp();
+                            } ,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            padding: EdgeInsets.all(0.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFF50057),
+
+                                  borderRadius: BorderRadius.circular(30.0)),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: 250.0, minHeight: 50.0),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "SIGNUP",
+                                  textAlign: TextAlign.center,
+                                  style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(height: 10),

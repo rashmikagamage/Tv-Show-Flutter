@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:tvshowsapp/login/login.dart';
-import 'package:tvshowsapp/login/signup.dart';
 
 
 
@@ -89,40 +87,61 @@ class _StartState extends State<Start> {
             ),
 
             SizedBox(height: 50.0),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                    padding: EdgeInsets.only(left: 48, right: 48),
+                Container(
+                  height: 50.0,
+                  margin: EdgeInsets.all(10),
+                  child: RaisedButton(
                     onPressed: navigateToLogin,
-                    child: Text(
-                      'LOGIN',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFD50000),
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Container(
+                        constraints: BoxConstraints(
+                            maxWidth: 250.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "LOGIN",
+                          textAlign: TextAlign.center,
+                          style:
+                          TextStyle(color: Colors.white, fontSize: 20),
+                        ),
                       ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: const Color(0xFFD50000)),
-                SizedBox(width: 30.0),
-                RaisedButton(
-                    padding: EdgeInsets.only(left: 30, right: 30),
+                  ),
+                ),
+                Container(
+                  height: 50.0,
+                  margin: EdgeInsets.all(10),
+                  child: RaisedButton(
                     onPressed: navigateToRegister,
-                    child: Text(
-                      'REGISTER',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFD50000),
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Container(
+                        constraints: BoxConstraints(
+                            maxWidth: 250.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "REGISTER",
+                          textAlign: TextAlign.center,
+                          style:
+                          TextStyle(color: Colors.white, fontSize: 20),
+                        ),
                       ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: const Color(0xFFD50000)),
+                  ),
+                ),
               ],
             ),
 
