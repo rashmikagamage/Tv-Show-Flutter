@@ -14,6 +14,7 @@ import 'package:uuid/uuid.dart';
 import 'package:tvshowsapp/models/channel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+import 'dart:async';
 
 class AddChannels extends StatefulWidget {
   @override
@@ -105,7 +106,10 @@ class _AddChannelsState extends State<AddChannels> {
 
   Future<void> addUser() {
     _showMyDialog();
-    _showNotification();
+
+    Timer(Duration(seconds: 5), () {
+      _showNotification();
+    });
 
     // Call the user's CollectionReference to add a new user
     // return users
@@ -142,8 +146,8 @@ class _AddChannelsState extends State<AddChannels> {
         child: Column(children: <Widget>[
           ZoomIn(
             child: Padding(
-                padding: const EdgeInsets.only(right: 45, top: 20, left: 20),
-                child: Image.asset('assets/cinema.png', width: 250)),
+                padding: const EdgeInsets.only(right: 45, top: 20, left: 30),
+                child: Image.asset('assets/p4.png', width: 200)),
           ),
           SingleChildScrollView(
             child: Form(
@@ -216,11 +220,13 @@ class _AddChannelsState extends State<AddChannels> {
 
                     //upload button
                     IconButton(
-                      icon: const Icon(Icons.file_upload),
+                      icon: const Icon(Icons.linked_camera_outlined),
                       tooltip: 'Increase volume by 10',
                       onPressed: () {
                         _openFileExplorer();
                       },
+                      hoverColor: Colors.pinkAccent,
+                      iconSize: 50,
                     ),
 
                     //Submit button
@@ -273,7 +279,7 @@ class _AddChannelsState extends State<AddChannels> {
                               ? new Container(
                                   padding: const EdgeInsets.only(bottom: 30.0),
                                   height:
-                                      MediaQuery.of(context).size.height * 0.50,
+                                      MediaQuery.of(context).size.height * 0.10,
                                   child: new Scrollbar(
                                     child: new ListView.separated(
                                       itemCount:

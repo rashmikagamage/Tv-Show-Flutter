@@ -84,6 +84,18 @@ flutter:
     - assets/image3.jpg
     - assets/image4.jpg
     - assets/image5.jpg
+    - assets/giphy.gif
+    - assets/giphytv1.gif
+    - assets/giphytv2.gif
+    - assets/giphytv3.gif
+    - assets/giphytv4.gif
+    - assets/giphytv5.gif
+    - assets/giphytv6.gif
+    - assets/p1.png
+    - assets/p2.png
+    - assets/p3.png
+    - assets/p4.png
+
    
 
   # An image asset can refer to one or more resolution-specific "variants", see
