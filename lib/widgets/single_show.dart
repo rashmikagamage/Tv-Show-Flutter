@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tvshowsapp/models/show.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
 import 'package:tvshowsapp/screens/view_admin.dart';
@@ -15,11 +17,47 @@ class SingleShow extends StatelessWidget {
 
   SingleShow({this.showList, this.title, this.imageHeight, this.imageWidth});
 
-  void userRated(String title, double currentRating, int count, double rating) {
-    count += 1;
-    double newRating = currentRating + rating / count;
-    print(title + ' ' + rating.toString());
-    print(num.parse(newRating.toStringAsFixed(1)));
+  sendToDB(Entry show, String rating, String userCount) {
+    Map<String, dynamic> tvShow = {
+      "id": show.id,
+      "name": show.name,
+      "channel": show.channel,
+      "day": show.day,
+      "time": show.showTime,
+      "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB',
+      "rating": rating,
+      "ratedUsersCount": userCount
+    };
+
+    FirebaseFirestore _db = FirebaseFirestore.instance;
+    var options = SetOptions(merge: true);
+    _db
+        .collection('tvshows')
+        .where("id", isEqualTo: show.id)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.first.reference.set(tvShow, options);
+    });
+
+    Fluttertoast.showToast(
+        msg: "Rating Added",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.lightBlue[400],
+        textColor: Colors.black,
+        fontSize: 14.0);
+
+    // Navigator.of(context).pop();
+  }
+
+  void userRated(double userRating, Entry show) {
+    int count = int.parse(show.ratedUsersCount) + 1;
+    double newRating = double.parse(show.rating) + userRating / count;
+    print(show.name + ' ' + newRating.toString());
+    double sendRating = num.parse(newRating.toStringAsFixed(1));
+
+    sendToDB(show, sendRating.toString(), count.toString());
   }
 
   @override
@@ -97,12 +135,7 @@ class SingleShow extends StatelessWidget {
                                         onPressed: () => Navigator.pop(
                                             context,
                                             userRated(
-                                                showList[index].name,
-                                                double.parse(
-                                                    showList[index].rating),
-                                                int.parse(showList[index]
-                                                    .ratedUsersCount),
-                                                userRating)),
+                                                userRating, showList[index])),
                                         child: Text('Submit'))
                                   ],
                                 )),
