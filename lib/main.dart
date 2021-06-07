@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EntryProvider(),
       child: MaterialApp(
-          home: ViewFovourite(),
+          home: HomeScreeen(),
           theme: ThemeData(
             accentColor: Colors.pinkAccent,
             primaryColor: Colors.black,

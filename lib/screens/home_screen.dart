@@ -240,7 +240,7 @@ class _HomeScreeenState extends State<HomeScreeen> {
                 ),
                 SingleShow(
                   showList: snapshot.data,
-                  title: 'My List',
+                  title: 'View All',
                   imageHeight: 250.0,
                   imageWidth: 150.0,
                 ),

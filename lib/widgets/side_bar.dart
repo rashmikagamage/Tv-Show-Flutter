@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
-
+import 'package:tvshowsapp/screens/favourite_shows.dart';
 
 class SideBar extends StatelessWidget {
   @override
@@ -10,8 +10,8 @@ class SideBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Niroshan'),
-            accountEmail: Text('test@test.com'),
+            accountName: Text('John Wick'),
+            accountEmail: Text('wick@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.asset(
@@ -25,9 +25,14 @@ class SideBar extends StatelessWidget {
                     image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover)),
           ),
           ListTile(
+              leading: Icon(Icons.supervised_user_circle),
+              title: Text('My Profile'),
+              onTap: () => print('fav clic!')),
+          ListTile(
               leading: Icon(Icons.favorite),
-              title: Text('Favorites'),
-              onTap: () => print('fav clicker!')),
+              title: Text('My Favorites'),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ViewFovourite()))),
           ListTile(
               leading: Icon(Icons.tv),
               title: Text('Channels'),
@@ -38,8 +43,18 @@ class SideBar extends StatelessWidget {
               title: Text('Settings'),
               onTap: () => print('settings clicled!')),
           ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About us'),
+              leading: Icon(Icons.notifications_active_outlined),
+              title: Text('Notifications'),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminHome()))),
+          ListTile(
+              leading: Icon(Icons.call),
+              title: Text('Contact Us'),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminHome()))),
+          ListTile(
+              leading: Icon(Icons.admin_panel_settings_rounded),
+              title: Text('Admin Home'),
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AdminHome()))),
           Divider(),
