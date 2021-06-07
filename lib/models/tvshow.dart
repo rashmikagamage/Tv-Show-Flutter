@@ -4,8 +4,12 @@ class Entry {
   String showTime;
   String day;
   String channel;
+  String rating;
+  String ratedUsersCount;
 
-  Entry({this.id, this.name, this.showTime, this.day, this.channel});
+  
+
+  Entry({this.id, this.name, this.showTime, this.day, this.channel,this.rating,this.ratedUsersCount});
 
   factory Entry.fromJson(Map<String, dynamic> json) {
     return Entry(
@@ -13,7 +17,10 @@ class Entry {
         name: json['name'],
         showTime: json['time'],
         day: json['day'],
-        channel: json['channel']);
+        channel: json['channel'],
+        rating: json['rating'] ,
+        ratedUsersCount:json['ratedUsersCount']  
+        );
   }
 
   Map<String, dynamic> toMap() {
@@ -22,7 +29,9 @@ class Entry {
       'name': name,
       'showTime': showTime,
       'day': day,
-      'channel': channel
+      'channel': channel,
+      'rating': rating,
+      'ratedUsersCount': ratedUsersCount
     };
   }
 }

@@ -45,4 +45,5 @@ class FirestoreService {
       snapshot.docs.first.reference.delete();
     });
   }
+
 }

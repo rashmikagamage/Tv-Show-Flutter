@@ -70,7 +70,9 @@ class _AddTvShowsState extends State<AddTvShows> {
       "channel": channel,
       "day": day,
       "time": time.substring(11, 16),
-      "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB'
+      "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB',
+      "rating": '0',
+      "ratedUsersCount": "0"
     };
 
     CollectionReference collectionReference =
