@@ -10,12 +10,12 @@ import 'package:rating_bar/rating_bar.dart';
 
 import '../main.dart';
 
-class ViewTvShow extends StatefulWidget {
+class ViewFovourite extends StatefulWidget {
   @override
-  _ViewTvShowState createState() => _ViewTvShowState();
+  _ViewFovouriteState createState() => _ViewFovouriteState();
 }
 
-class _ViewTvShowState extends State<ViewTvShow> {
+class _ViewFovouriteState extends State<ViewFovourite> {
   @override
   Widget build(BuildContext context) {
     final entryProvider = Provider.of<EntryProvider>(context);
@@ -23,7 +23,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
         appBar: AppBar(
           flexibleSpace: Image.asset("assets/grd.jpg", fit: BoxFit.cover),
           title: Text(
-            "Search Tv Show",
+            "My Favourites",
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
@@ -36,7 +36,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
           ],
         ),
         body: StreamBuilder<List<Entry>>(
-            stream: entryProvider.entries,
+            stream: entryProvider.favs,
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return ListView.builder(
@@ -46,16 +46,12 @@ class _ViewTvShowState extends State<ViewTvShow> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          _showMyDialog(
-                              snapshot.data[index].id,
-                              snapshot.data[index].day,
-                              snapshot.data[index].name,
-                              snapshot.data[index].channel,
-                              snapshot.data[index].showTime);
+                          _showMyDialog(snapshot.data[index].id, entryProvider,
+                              snapshot.data[index].name);
                         },
                         child: Container(
                           child: Card(
-                              color: Colors.white54,
+                              color: Colors.blue[50],
                               elevation: 5,
                               child: Row(
                                 children: <Widget>[
@@ -143,7 +139,8 @@ class _ViewTvShowState extends State<ViewTvShow> {
                                               padding: const EdgeInsets.only(
                                                   left: 150),
                                               child: Icon(
-                                                Icons.notifications_none,
+                                                Icons
+                                                    .notifications_off_outlined,
                                                 color: Colors.pink[800],
                                                 size: 24.0,
                                               ),
@@ -167,8 +164,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
             }));
   }
 
-  Future<void> _showMyDialog(
-      String id, String day, String name, String channel, String time) async {
+  Future<void> _showMyDialog(String id, final entry, String name) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -176,21 +172,29 @@ class _ViewTvShowState extends State<ViewTvShow> {
         return BounceInUp(
           child: AlertDialog(
             title: Text(
-              "Don't ever miss  Tv-Show",
+              "        Remove from favorites ",
               style: TextStyle(fontSize: 18, color: Colors.blue[900]),
             ),
             content: SingleChildScrollView(
               child: Column(children: <Widget>[
-                Image(image: AssetImage('assets/email.gif')),
+                Image(
+                  image: AssetImage('assets/deletefav.png'),
+                  width: 150,
+                ),
                 Text(
-                  'Confirm to get notification for $name ',
+                  ' ',
                   style: TextStyle(
                       fontSize: 16, color: Colors.grey[900], height: 1.75),
                 ),
                 Text(
-                  'You will get a Notification and a mobile alert',
+                  'Confirm to stop getting reminders for $name ',
                   style: TextStyle(
-                      fontSize: 14, color: Colors.grey[800], height: 1.75),
+                      fontSize: 16, color: Colors.grey[900], height: 1.75),
+                ),
+                Text(
+                  'We will stop all the reminders including SMS and E-mail ',
+                  style: TextStyle(
+                      fontSize: 14, color: Colors.red[700], height: 1.75),
                 ),
               ]),
             ),
@@ -198,8 +202,7 @@ class _ViewTvShowState extends State<ViewTvShow> {
               TextButton(
                 child: Text('Confirm'),
                 onPressed: () {
-                  scheduleAlarm(name, channel, time);
-                  addToDB(id, name, channel, day, time);
+                  entry.removeFav(id);
                   Navigator.of(context).pop();
                 },
               ),
@@ -215,44 +218,4 @@ class _ViewTvShowState extends State<ViewTvShow> {
       },
     );
   }
-
-  //method to schedule the alarm
-  void scheduleAlarm(String name, String channel, String time) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'alarm_notif',
-      'alarm_notif',
-      'Channel for Alarm notification',
-      icon: 'not',
-    );
-
-    var platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
-
-    // ignore: deprecated_member_use
-    await flutterLocalNotificationsPlugin.schedule(
-        5,
-        "Reminder to watch " + name,
-        " Watch it @ " + time + " on " + channel,
-        DateTime.now(),
-        platformChannelSpecifics);
-  }
-}
-
-//method to add favourite tv-shows to DB
-
-addToDB(String id, String name, String channel, String day, String time) {
-  Map<String, dynamic> demo = {
-    "userid": "rashmikamadushan321@gmail.com",
-    "id": id,
-    "name": name,
-    "channel": channel,
-    "day": day,
-    "time": time,
-    "img": '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB'
-  };
-
-  CollectionReference collectionReference =
-      FirebaseFirestore.instance.collection('favourites');
-  collectionReference.add(demo);
 }

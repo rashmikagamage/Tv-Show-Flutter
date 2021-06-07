@@ -156,7 +156,17 @@ class _DeleteShowState extends State<DeleteShow> {
               style: TextStyle(fontSize: 20, color: Colors.red),
             ),
             content: SingleChildScrollView(
-              child: Container(child: Text('Confirm to delete $name')),
+              child: Column(children: [
+                Image(
+                  image: AssetImage(
+                    'assets/bin.png',
+                  ),
+                  height: 100.0,
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: Text('Confirm to delete $name'))
+              ]),
             ),
             actions: <Widget>[
               TextButton(

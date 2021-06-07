@@ -10,6 +10,11 @@ class FirestoreService {
         snapshot.docs.map((doc) => Entry.fromJson(doc.data())).toList());
   }
 
+  Stream<List<Entry>> getFavs() {
+    return _db.collection('favourites').snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Entry.fromJson(doc.data())).toList());
+  }
+
   //Upsert
   Future<void> setEntry(Entry entry) {
     var options = SetOptions(merge: true);
@@ -23,11 +28,21 @@ class FirestoreService {
     });
   }
 
-  void tvShowStream() async{
-    await for( var snapshot in _db.collection('tvshows').snapshots()){
-      for (var message in snapshot.docs){
+  void tvShowStream() async {
+    await for (var snapshot in _db.collection('tvshows').snapshots()) {
+      for (var message in snapshot.docs) {
         print(message.data());
       }
     }
+  }
+
+  Future<void> removeFav(String id) async {
+    _db
+        .collection('favourites')
+        .where("id", isEqualTo: id)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.first.reference.delete();
+    });
   }
 }
