@@ -1,3 +1,5 @@
+import 'package:tvshowsapp/models/tvshow.dart';
+
 class Show {
 
   String id;
@@ -20,4 +22,15 @@ class Show {
       this.channel,
       this.rating,
       this.ratedUsersCount});
+
+  Entry toEntry(){
+    return Entry(id: id,
+    name: name,
+    showTime: showTime,
+    day: day,
+    channel: channel,
+    rating: rating,
+    ratedUsersCount: ratedUsersCount
+    );
+  }
 }

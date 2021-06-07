@@ -3,8 +3,9 @@ import 'package:rating_bar/rating_bar.dart';
 
 class StarRating extends StatelessWidget {
   double rating;
+  double starSize;
 
-  StarRating({this.rating});
+  StarRating({this.rating, this.starSize});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class StarRating extends StatelessWidget {
       filledColor: Colors.yellow[700],
       emptyColor: Colors.yellow[400],
       emptyIcon: Icons.star_border,
-      size: 17,
+      size: starSize,
     );
   }
 }

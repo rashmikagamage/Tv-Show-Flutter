@@ -53,11 +53,22 @@ class SingleShow extends StatelessWidget {
 
   void userRated(double userRating, Entry show) {
     int count = int.parse(show.ratedUsersCount) + 1;
-    double newRating = double.parse(show.rating) + userRating / count;
-    print(show.name + ' ' + newRating.toString());
-    double sendRating = num.parse(newRating.toStringAsFixed(1));
+    double currentRating = double.parse(show.rating) + userRating;
+
+    double sendRating = num.parse(currentRating.toStringAsFixed(1));
 
     sendToDB(show, sendRating.toString(), count.toString());
+  }
+
+  double showRating(Entry show) {
+    double showRating;
+    if (int.parse(show.ratedUsersCount) == 0) {
+      showRating = 0.0;
+    } else {
+      showRating = double.parse(show.rating) / int.parse(show.ratedUsersCount);
+    }
+    print(showRating);
+    return double.parse(showRating.toStringAsFixed(1));
   }
 
   @override
@@ -113,7 +124,7 @@ class SingleShow extends StatelessWidget {
                         onLongPress: () => showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                                  title: Text('Rate ${showList[index].name}'),
+                                  title: Text('${showList[index].name}'),
                                   content: RatingBar.builder(
                                     initialRating: 1,
                                     minRating: 1,
@@ -165,7 +176,8 @@ class SingleShow extends StatelessWidget {
                         top: 170.0,
                         right: 10.0,
                         child: StarRating(
-                          rating: double.parse(showList[index].rating),
+                          rating: showRating(showList[index]),
+                          starSize: 17,
                         )),
                     Positioned(
                         top: 170.0,

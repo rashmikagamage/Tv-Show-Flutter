@@ -1,11 +1,11 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tvshowsapp/models/show.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
 import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
+import 'package:tvshowsapp/screens/show_detail.dart';
 import 'package:tvshowsapp/services/firestore_services.dart';
 import 'package:tvshowsapp/widgets/side_bar.dart';
 import 'package:tvshowsapp/services/dataProvider.dart';
@@ -60,63 +60,69 @@ class _HomeScreeenState extends State<HomeScreeen> {
           ),
         );
       },
-      child: Stack(
-        children: [
-          Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 10.0)
-                ],
-              ),
-              child: Center(
-                child: Hero(
-                  tag: currentList[index].imageUrl,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.network(
-                      currentList[index].imageUrl,
-                      fit: BoxFit.cover,
-                      height: 220.0,
-                      loadingBuilder: (BuildContext ctx, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.blue[700]),
-                            ),
-                          );
-                        }
-                      },
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ShowDetail(show: currentList[index]))),
+        child: Stack(
+          children: [
+            Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(0.0, 4.0),
+                        blurRadius: 10.0)
+                  ],
+                ),
+                child: Center(
+                  child: Hero(
+                    tag: currentList[index].imageUrl,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.network(
+                        currentList[index].imageUrl,
+                        fit: BoxFit.cover,
+                        height: 220.0,
+                        loadingBuilder: (BuildContext ctx, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.blue[700]),
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            left: 30.0,
-            bottom: 40.0,
-            child: Container(
-              width: 250.0,
-              child: Text(
-                currentList[index].name.toUpperCase(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
+            Positioned(
+              left: 30.0,
+              bottom: 40.0,
+              child: Container(
+                width: 250.0,
+                child: Text(
+                  currentList[index].name.toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
