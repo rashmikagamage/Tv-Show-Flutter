@@ -13,9 +13,10 @@ class SideBar extends StatelessWidget {
             accountName: Text('John Wick'),
             accountEmail: Text('wick@gmail.com'),
             currentAccountPicture: CircleAvatar(
-              child: ClipOval(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(500.0),
                 child: Image.asset(
-                  'assets/images/profPic.png',
+                  'assets/images/john.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
