@@ -10,6 +10,8 @@ class EntryProvider with ChangeNotifier {
   String _showTime;
   String _day;
   String _channel;
+  String _rating;
+  String _ratedUsersCount;
 
   // Getters
   String get id => _id;
@@ -17,6 +19,8 @@ class EntryProvider with ChangeNotifier {
   String get showTime => _showTime;
   String get day => _day;
   String get channel => _channel;
+  String get rating => _rating;
+  String get ratedUsersCount=> _ratedUsersCount;
   Stream<List<Entry>> get entries => firestoreService.getEntries();
 
   // Setters
@@ -45,6 +49,16 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set changeRating(String rating) {
+    _rating = rating;
+    notifyListeners();
+  }
+
+  set changeratedUsersCount(String ratedUsersCount) {
+    _ratedUsersCount = ratedUsersCount;
+    notifyListeners();
+  }
+
   // Functions
   loadAll(Entry entry) {
     if (entry != null) {
@@ -53,12 +67,16 @@ class EntryProvider with ChangeNotifier {
       _showTime = entry.showTime;
       _day = entry.day;
       _channel = entry.channel;
+      _rating = entry.rating;
+      _ratedUsersCount = entry.ratedUsersCount;
     } else {
       _id = null;
       _name = null;
       _showTime = null;
       _day = null;
       _channel = null;
+      _rating = null;
+      _ratedUsersCount = entry.ratedUsersCount;
     }
   }
 
@@ -70,7 +88,10 @@ class EntryProvider with ChangeNotifier {
         name: _name,
         channel: _channel,
         day: _day,
-        showTime: _showTime);
+        showTime: _showTime,
+        rating: _rating,
+        ratedUsersCount: _ratedUsersCount
+        );
     firestoreService.setEntry(entry);
   }
 
