@@ -7,6 +7,8 @@ class Entry {
   String rating;
   String ratedUsersCount;
 
+  
+
   Entry({this.id, this.name, this.showTime, this.day, this.channel,this.rating,this.ratedUsersCount});
 
   factory Entry.fromJson(Map<String, dynamic> json) {

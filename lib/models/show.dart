@@ -1,14 +1,19 @@
 class Show {
+
+  String id;
   String name;
   String imageUrl;
   String showTime;
   String day;
   String channel;
-  double rating;
-  int ratedUsersCount;
+  String rating;
+  String ratedUsersCount;
+
 
   Show(
-      {this.name,
+      {
+      this.id,
+      this.name,
       this.imageUrl,
       this.showTime,
       this.day,

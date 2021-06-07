@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tvshowsapp/models/show.dart';
 import 'package:tvshowsapp/models/tvshow.dart';
 import 'package:tvshowsapp/provider/entry_provider.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
@@ -15,7 +18,10 @@ class HomeScreeen extends StatefulWidget {
 
 class _HomeScreeenState extends State<HomeScreeen> {
   PageController _pageController;
+  String day = 'Monday';
   FirestoreService _fs = FirestoreService();
+  Set<Show> translatedList = new LinkedHashSet();
+  bool isEmptyFlag = false;
 
   @override
   void initState() {
@@ -24,7 +30,20 @@ class _HomeScreeenState extends State<HomeScreeen> {
     // _fs.getshows();
   }
 
+  int dayLength(List<Entry> list) {
+    int dayCount = 0;
+    list.forEach((element) {
+      if (element.day == day) dayCount++;
+    });
+    if (dayCount == 0) {
+      isEmptyFlag = true;
+      return 1;
+    }
+    return dayCount;
+  }
+
   _showSelector(int index, showList) {
+    List<Show> currentList = showList.where((show) => show.day == day).toList();
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget) {
@@ -57,11 +76,11 @@ class _HomeScreeenState extends State<HomeScreeen> {
               ),
               child: Center(
                 child: Hero(
-                  tag: imageUrls[index],
+                  tag: currentList[index].imageUrl,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Image.network(
-                      imageUrls[index],
+                      currentList[index].imageUrl,
                       fit: BoxFit.cover,
                       height: 220.0,
                       loadingBuilder: (BuildContext ctx, Widget child,
@@ -89,7 +108,7 @@ class _HomeScreeenState extends State<HomeScreeen> {
             child: Container(
               width: 250.0,
               child: Text(
-                showList[index].name.toUpperCase(),
+                currentList[index].name.toUpperCase(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -136,9 +155,31 @@ class _HomeScreeenState extends State<HomeScreeen> {
                   child: PageView.builder(
                     controller: _pageController,
                     itemBuilder: (BuildContext context, int index) {
-                      return _showSelector(index, snapshot.data);
+                      for (int i = 0; i < snapshot.data.length; i++) {
+                        Entry newEntry = snapshot.data[i];
+                        translatedList.add(new Show(
+                            id: newEntry.id,
+                            name: newEntry.name,
+                            imageUrl: imageUrls[i],
+                            showTime: newEntry.showTime,
+                            day: newEntry.day,
+                            channel: newEntry.channel,
+                            rating: newEntry.rating,
+                            ratedUsersCount: newEntry.ratedUsersCount));
+                      }
+                      return isEmptyFlag
+                          ? Center(
+                              child: Text(
+                                'No shows on $day',
+                                style: TextStyle(
+                                    color: Colors.blue[700],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0),
+                              ),
+                            )
+                          : _showSelector(index, translatedList);
                     },
-                    itemCount: snapshot.data.length,
+                    itemCount: dayLength(snapshot.data),
                   ),
                 ),
                 Container(
@@ -149,10 +190,12 @@ class _HomeScreeenState extends State<HomeScreeen> {
                       itemCount: days.length,
                       itemBuilder: (BuildContext context, int index) {
                         return TextButton(
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminHome())),
+                          onPressed: () {
+                            setState(() {
+                              day = days[index];
+                              isEmptyFlag = false;
+                            });
+                          },
                           child: Container(
                             margin: EdgeInsets.all(10.0),
                             width: 160.0,
@@ -215,15 +258,3 @@ class _HomeScreeenState extends State<HomeScreeen> {
     );
   }
 }
-
-// () => Navigator.push(context,MaterialPageRoute(builder: (context) => ViewAdmin()))
-
-
-
-
-
-// Image(
-//                       image: NetworkImage(imageUrls[index]),
-//                       height: 220.0,
-//                       fit: BoxFit.cover,
-//                     )

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tvshowsapp/screens/admin_home.dart';
+
 
 class SideBar extends StatelessWidget {
   @override
@@ -38,7 +40,8 @@ class SideBar extends StatelessWidget {
           ListTile(
               leading: Icon(Icons.info),
               title: Text('About us'),
-              onTap: () => print('about us clicled!')),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminHome()))),
           Divider(),
           ListTile(
               leading: Icon(Icons.exit_to_app),
