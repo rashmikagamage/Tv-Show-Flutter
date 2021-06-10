@@ -8,6 +8,10 @@ import 'package:tvshowsapp/screens/admin_home.dart';
 import 'package:tvshowsapp/screens/favourite_shows.dart';
 import 'package:tvshowsapp/screens/home_screen.dart';
 import 'package:tvshowsapp/screens/view_tv_show.dart';
+import 'package:tvshowsapp/login/login.dart';
+import 'package:tvshowsapp/login/signup.dart';
+import 'package:tvshowsapp/login/start.dart';
+import 'package:tvshowsapp/screens/trending_list.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -41,6 +45,14 @@ class MyApp extends StatelessWidget {
       create: (context) => EntryProvider(),
       child: MaterialApp(
           home: HomeScreeen(),
+          routes: <String,WidgetBuilder>{
+
+            "Login" : (BuildContext context)=>Login(),
+            "SignUp":(BuildContext context)=>SignUp(),
+            "Start":(BuildContext context)=>Start(),
+            "ListViewPage":(BuildContext context)=>ListViewPage(),
+         },
+
           theme: ThemeData(
             accentColor: Colors.pinkAccent,
             primaryColor: Colors.black,
