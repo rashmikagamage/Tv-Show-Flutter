@@ -1,8 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:tvshowsapp/login/start.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
 import 'package:tvshowsapp/screens/favourite_shows.dart';
+import 'package:tvshowsapp/screens/trending_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class SideBar extends StatelessWidget {
+
+class SideBar extends StatefulWidget {
+  @override
+  _SideBar createState() => _SideBar();
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+class _SideBar extends State<SideBar> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User user;
+  bool isloggedin = false;
+
+  checkAuthentification() async {
+    _auth.authStateChanges().listen((user) {
+      if (user == null) {
+        Navigator.of(context).pushReplacementNamed("Start");
+      }
+    });
+  }
+
+  getUser() async {
+    User firebaseUser = _auth.currentUser;
+    await firebaseUser?.reload();
+    firebaseUser = _auth.currentUser;
+
+    if (firebaseUser != null) {
+      setState(() {
+        this.user = firebaseUser;
+        this.isloggedin = true;
+      });
+    }
+  }
+
+  signOut() async {
+    _auth.signOut();
+
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentification();
+    this.getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -26,9 +81,10 @@ class SideBar extends StatelessWidget {
                     image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover)),
           ),
           ListTile(
-              leading: Icon(Icons.supervised_user_circle),
-              title: Text('My Profile'),
-              onTap: () => print('fav clic!')),
+              leading: Icon(Icons.table_view),
+              title: Text('Trending List'),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ListViewPage()))),
           ListTile(
               leading: Icon(Icons.favorite),
               title: Text('My Favorites'),
@@ -62,9 +118,13 @@ class SideBar extends StatelessWidget {
           ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Sign Out'),
-              onTap: () => print('sign out clicled!')),
+              onTap: () => signOut()),
         ],
       ),
     );
   }
 }
+
+
+
+

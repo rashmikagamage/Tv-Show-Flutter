@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tvshowsapp/login/signup.dart';
+import 'package:tvshowsapp/screens/home_screen.dart';
 import 'package:tvshowsapp/screens/trending_list.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
 
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHome()));
       }
       else{
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ListViewPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreeen()));
       }
     }
 

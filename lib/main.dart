@@ -44,13 +44,15 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EntryProvider(),
       child: MaterialApp(
-          home: HomeScreeen(),
+          home: Start(),
           routes: <String,WidgetBuilder>{
 
             "Login" : (BuildContext context)=>Login(),
             "SignUp":(BuildContext context)=>SignUp(),
-            "Start":(BuildContext context)=>Start(),
+            "HomeScreen":(BuildContext context)=>HomeScreeen(),
             "ListViewPage":(BuildContext context)=>ListViewPage(),
+            "Start":(BuildContext context)=>Start(),
+
          },
 
           theme: ThemeData(

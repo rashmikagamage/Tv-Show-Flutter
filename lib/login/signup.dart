@@ -11,6 +11,7 @@ import 'package:tvshowsapp/login/add_signup_details.dart';
 import 'package:tvshowsapp/screens/admin_home.dart';
 import 'package:tvshowsapp/main.dart';
 import 'package:tvshowsapp/login/login.dart';
+import 'package:tvshowsapp/screens/home_screen.dart';
 
 
 
@@ -94,7 +95,7 @@ class _SignUpState extends State<SignUp> {
         );
       }
       else{
-        Navigator.push(this.context, MaterialPageRoute(builder: (context) => ListViewPage()));
+        Navigator.push(this.context, MaterialPageRoute(builder: (context) => HomeScreeen()));
       }
     }
     userSetup(_email,_contact,imgUrl);
